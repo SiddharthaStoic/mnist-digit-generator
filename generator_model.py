@@ -7,15 +7,15 @@ class Generator(nn.Module):
         self.label_emb = nn.Embedding(num_classes, num_classes)
         self.img_shape = img_shape
         self.model = nn.Sequential(
-            nn.Linear(z_dim + num_classes, 128),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(128, 256),
-            nn.BatchNorm1d(256),
+            nn.Linear(z_dim + num_classes, 256),
             nn.LeakyReLU(0.2, inplace=True),
             nn.Linear(256, 512),
             nn.BatchNorm1d(512),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(512, int(torch.prod(torch.tensor(img_shape)))),
+            nn.Linear(512, 1024),
+            nn.BatchNorm1d(1024),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(1024, int(torch.prod(torch.tensor(img_shape)))),
             nn.Tanh()
         )
 
